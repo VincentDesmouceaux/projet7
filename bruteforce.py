@@ -4,6 +4,16 @@ import tracemalloc  # Pour mesurer l'utilisation de la mémoire
 
 
 def read_actions_from_csv(file_path):
+    """
+    Lit un fichier CSV contenant des actions et retourne une liste de tuples
+    contenant le nom de l'action, son coût et son bénéfice.
+
+    Args:
+        file_path (str): Le chemin vers le fichier CSV.
+
+    Returns:
+        list of tuple: Une liste de tuples contenant le nom, le coût et le bénéfice de chaque action.
+    """
     actions = []
     with open(file_path, mode='r') as file:
         reader = csv.DictReader(file)
@@ -13,10 +23,28 @@ def read_actions_from_csv(file_path):
 
 
 def calculate_profit(actions):
+    """
+    Calcule le profit total pour une combinaison donnée d'actions.
+
+    Args:
+        actions (list of tuple): Une liste de tuples représentant une combinaison d'actions.
+
+    Returns:
+        float: Le profit total pour la combinaison donnée.
+    """
     return sum(cost * (profit / 100) for _, cost, profit in actions)
 
 
 def generate_combinations(actions):
+    """
+    Génère toutes les combinaisons possibles d'une liste d'actions.
+
+    Args:
+        actions (list of tuple): La liste des actions.
+
+    Returns:
+        list of list of tuple: Une liste de combinaisons, chaque combinaison étant une liste d'actions.
+    """
     combinations = []
     n = len(actions)
     for i in range(1, 2 ** n):
@@ -29,6 +57,16 @@ def generate_combinations(actions):
 
 
 def find_best_investment(actions, budget):
+    """
+    Trouve la meilleure combinaison d'investissement pour un budget donné en maximisant le profit.
+
+    Args:
+        actions (list of tuple): La liste des actions sous forme de tuples (nom, coût, bénéfice).
+        budget (int): Le budget maximal.
+
+    Returns:
+        tuple: La meilleure combinaison d'actions, le profit maximal et le coût total de la combinaison.
+    """
     best_combination = []
     max_profit = 0
     min_cost = float('inf')
@@ -48,6 +86,12 @@ def find_best_investment(actions, budget):
 
 
 def main():
+    """
+    Point d'entrée principal du programme. Lit les actions à partir d'un fichier CSV,
+    trouve la meilleure combinaison d'investissement pour un budget donné,
+    et affiche les résultats, y compris le coût total, le profit total,
+    le temps d'exécution et l'utilisation de la mémoire.
+    """
     start_time = time.time()
     tracemalloc.start()  # Démarrer le suivi de l'utilisation de la mémoire
 
