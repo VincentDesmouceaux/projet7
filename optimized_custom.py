@@ -45,13 +45,14 @@ def knapsack(actions, max_budget):
     for action_index in range(total_actions, 0, -1):
         if profit_table[action_index][remaining_budget] != profit_table[action_index - 1][remaining_budget]:
             action_name, action_cost, action_benefit = actions[action_index - 1]
-            best_combination.append((action_name, action_cost / 100, action_benefit))  # Reconvertir en euros
+            best_combination.append((action_name, action_cost, action_benefit))
             remaining_budget -= int(action_cost)
 
     best_combination.reverse()
     total_cost = sum(action_cost for _, action_cost, _ in best_combination)
 
-    return best_combination, total_cost / 100, max_profit  # Reconvertir en euros
+    # Remarque : `total_cost` est en centimes ici et est converti en euros lors de son retour
+    return best_combination, total_cost / 100, max_profit  # Reconvertir total_cost en euros
 
 
 def execute_and_compare(file_path, max_budget, sienna_total_cost, sienna_total_return):
@@ -68,7 +69,7 @@ def execute_and_compare(file_path, max_budget, sienna_total_cost, sienna_total_r
     print(f"\nRésultats pour {file_path}:")
     print("Meilleure combinaison d'actions:")
     for action in best_combination:
-        print(f"{action[0]} - Coût: {action[1]:.2f}€ - Bénéfice: {action[2]:.2f}%")
+        print(f"{action[0]} - Coût: {action[1] / 100:.2f}€ - Bénéfice: {action[2]:.2f}%")
     print(f"\nCoût total de la meilleure combinaison: {total_cost:.2f}€")
     print(f"Profit total après 2 ans: {max_profit:.2f}€")
 
